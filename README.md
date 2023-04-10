@@ -4,9 +4,14 @@ Final project for the blockchain course at HSLU (hslu.ch).
 
 ## Project Description
 
+## Learn About Blockchain
+
+https://blockchainworkbench.com/
+
 ## Getting Started
 
 -   Git clone the project
+-   Install MeteorJS: https://docs.meteor.com/install.html
 -   `meteor npm i`
 -   `npm run dev`
 
