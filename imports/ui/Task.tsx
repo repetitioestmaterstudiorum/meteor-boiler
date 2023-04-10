@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Task } from '/imports/db/TasksCollection'
+import type { Task } from '../api/tasks/tasks.collection'
 
 // ---
 

@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
-import { TasksCollection } from '/imports/db/TasksCollection'
-import { insertTask } from '/imports/api/tasksMethods'
-import '/imports/api/tasksMethods'
-import '/imports/api/tasksPublications'
+import { TasksCollection } from '../imports/api/tasks/tasks.collection'
+import { insertTask } from '/imports/api/tasks/tasks.model'
+import '/imports/api/tasks.methods'
+import '/imports/api/tasks.publications'
 
 // ---
 
