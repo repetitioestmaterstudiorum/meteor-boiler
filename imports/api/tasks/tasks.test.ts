@@ -5,7 +5,7 @@ import { insertTask, updateTask, removeTask } from '/imports/api/tasks/tasks.mod
 
 // ---
 
-describe('Tasks', () => {
+describe('tasks.model.ts', () => {
 	const userId = Random.id()
 	const taskId = Random.id()
 
