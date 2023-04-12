@@ -1,8 +1,8 @@
-import { Mongo } from 'meteor/mongo'
+import { getCollectionByName } from '/imports/utils/db.utils'
 
 // ---
 
-export const TasksCollection = new Mongo.Collection('tasks')
+export const TasksCollection = getCollectionByName('tasks')
 
 export type Task = {
 	_id: string
