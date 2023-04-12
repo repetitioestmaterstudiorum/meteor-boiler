@@ -20,6 +20,7 @@
   "dependencies": {
     "@babel/runtime": "^7.21.0",
     "bcrypt": "^5.1.0",
+    "mongodb-memory-server": "^8.12.2",
     "lodash": "^4.17.21",
     "meteor-node-stubs": "^1.2.5",
     "react": "^18.2.0",
@@ -44,7 +45,6 @@
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "mongodb-memory-server": "^8.12.2",
     "prettier": "^2.8.7",
     "rimraf": "^5.0.0",
     "typescript": "^5.0.4"
