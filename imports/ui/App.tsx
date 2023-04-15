@@ -72,12 +72,7 @@ export function App() {
 
 						<ul className="tasks">
 							{tasks.map(task => (
-								<Task
-									key={task._id}
-									task={task}
-									onCheckboxClick={toggleChecked}
-									onDeleteClick={deleteTask}
-								/>
+								<Task key={task._id} task={task} />
 							))}
 						</ul>
 					</Fragment>
@@ -87,12 +82,4 @@ export function App() {
 			</div>
 		</div>
 	)
-}
-
-function toggleChecked({ _id, isChecked }: { _id: string; isChecked: boolean }) {
-	Meteor.call('tasks.setIsChecked', _id, !isChecked)
-}
-
-function deleteTask({ _id }: { _id: string }) {
-	Meteor.call('tasks.remove', _id)
 }

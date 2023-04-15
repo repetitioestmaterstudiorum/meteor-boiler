@@ -1,16 +1,13 @@
 {
   "name": "meteor-boiler",
-  "private": true,
+  "author": "repetitioestmaterstudiorum",
   "license": "MIT",
   "scripts": {
     "dev": "export $(grep -v '^#' .env | xargs) && meteor --exclude-archs web.browser.legacy",
     "dev:trace": "export $(grep -v '^#' .env | xargs) && NODE_OPTIONS=--trace-warnings meteor --exclude-archs web.browser.legacy",
-    "test": "BROWSERSLIST_IGNORE_OLD_DATA=1 meteor test --driver-package meteortesting:mocha",
-    "test:app": "BROWSERSLIST_IGNORE_OLD_DATA=1 TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
-    "lint": "eslint imports/**/*.ts",
-    "tsc": "tsc --noEmit -p tsconfig.json",
-    "test:full": "npm run lint && npm run tsc && npm test",
     "visualize": "meteor --production --extra-packages bundle-visualizer",
+    "lint": "eslint 'imports/**/*.{ts,tsx}'",
+    "tsc": "tsc --noEmit -p tsconfig.json",
     "reset": "meteor reset && rimraf package-lock.json && rimraf node_modules/",
     "start": "meteor run"
   },
@@ -20,7 +17,6 @@
   "dependencies": {
     "@babel/runtime": "^7.21.0",
     "bcrypt": "^5.1.0",
-    "mongodb-memory-server": "^8.12.2",
     "lodash": "^4.17.21",
     "meteor-node-stubs": "^1.2.5",
     "react": "^18.2.0",
@@ -28,17 +24,10 @@
     "react-router-dom": "^6.10.0",
     "vitest": "^0.30.1"
   },
-  "meteor": {
-    "mainModule": {
-      "client": "client/main.tsx",
-      "server": "server/main.ts"
-    }
-  },
   "devDependencies": {
     "@types/lodash": "^4.14.192",
     "@types/meteor": "^2.9.2",
-    "@types/mocha": "^10.0.1",
-    "@types/react": "^18.0.34",
+    "@types/react": "^18.0.35",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
@@ -48,5 +37,11 @@
     "prettier": "^2.8.7",
     "rimraf": "^5.0.0",
     "typescript": "^5.0.4"
+  },
+  "meteor": {
+    "mainModule": {
+      "client": "client/main.tsx",
+      "server": "server/main.ts"
+    }
   }
 }

@@ -1,8 +1,12 @@
 import { Meteor } from 'meteor/meteor'
-import { TasksCollection } from '/imports/api/tasks/tasks.collection'
+import { findTasks } from '/imports/api/tasks/tasks.model'
 
 // ---
 
 Meteor.publish('tasks', function publishTasks() {
-	return TasksCollection.find({ userId: this.userId })
+	if (!this.userId) {
+		return this.ready()
+	}
+
+	return findTasks({ userId: this.userId })
 })

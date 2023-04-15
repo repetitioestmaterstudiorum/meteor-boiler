@@ -1,5 +1,4 @@
-import { TasksCollection } from '/imports/api/tasks/tasks.collection'
-import { insertTask } from '/imports/api/tasks/tasks.model'
+import { findTasks, insertTask } from '/imports/api/tasks/tasks.model'
 
 // ---
 
@@ -18,7 +17,7 @@ if (!user) {
 	throw new Error('No user found but should be seeded.')
 }
 
-if (TasksCollection.find().count() === 0) {
+if (findTasks({}).count() === 0) {
 	;[
 		'First Task',
 		'Second Task',

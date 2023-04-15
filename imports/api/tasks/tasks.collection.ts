@@ -1,12 +1,20 @@
-import { getCollectionByName } from '/imports/utils/db.utils'
+import { Mongo } from 'meteor/mongo'
+import { createDefaultIndexes } from '../db/db.default-indexes'
+import { WithOptionalMetaFields, WithMetaFields } from '/imports/api/db/db.generic-methods'
 
 // ---
 
-export const TasksCollection = getCollectionByName('tasks')
+export const TasksCollection = new Mongo.Collection<
+	WithOptionalMetaFields<Task>,
+	WithMetaFields<Task>
+>('tasks')
 
 export type Task = {
-	_id: string
 	text: string
+	userId: string
 	isChecked: boolean
-	createdAt: Date
 }
+
+TasksCollection.createIndexAsync({ userId: 1 })
+
+createDefaultIndexes<Task>(TasksCollection)

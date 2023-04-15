@@ -6,12 +6,16 @@ import React, { useState } from 'react'
 export function TaskForm() {
 	const [text, setText] = useState('')
 
-	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault()
 
 		if (!text) return
 
-		Meteor.call('tasks.insert', text)
+		try {
+			await Meteor.callAsync('tasks.insert', { text })
+		} catch (error) {
+			alert(error)
+		}
 
 		setText('')
 	}

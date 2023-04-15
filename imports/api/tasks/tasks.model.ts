@@ -1,24 +1,48 @@
 import { Meteor } from 'meteor/meteor'
-import { TasksCollection } from './tasks.collection'
+import { Task, TasksCollection } from './tasks.collection'
+import {
+	insert,
+	update,
+	remove,
+	find,
+	findOne,
+	MeteorMongoSelector,
+} from '/imports/api/db/db.generic-methods'
 
 // ---
 
-export function insertTask({ text, user }: { text: string; user: Meteor.User }) {
-	return TasksCollection.insert({
-		text: text,
-		userId: user._id,
-		createdAt: new Date(),
-	})
-}
-
-export function updateTask({ taskId, isChecked }: { taskId: string; isChecked: boolean }) {
-	return TasksCollection.update(taskId, {
-		$set: {
-			isChecked,
+export async function insertTask({ text, user }: { text: string; user: Meteor.User }) {
+	return await insert(
+		TasksCollection,
+		{
+			text: text,
+			userId: user._id,
+			isChecked: false,
 		},
-	})
+		user._id
+	)
 }
 
-export function removeTask({ taskId }: { taskId: string }) {
-	return TasksCollection.remove(taskId)
+export async function updateTask({
+	taskId,
+	isChecked,
+	userId,
+}: {
+	taskId: string
+	isChecked: boolean
+	userId: string
+}) {
+	return await update(TasksCollection, { _id: taskId }, { isChecked }, userId)
+}
+
+export async function removeTask({ taskId, userId }: { taskId: string; userId: string }) {
+	return await remove(TasksCollection, { _id: taskId }, userId)
+}
+
+export function findTasks(selector: MeteorMongoSelector<Task>) {
+	return find(TasksCollection, selector)
+}
+
+export async function findOneTask(selector: MeteorMongoSelector<Task>) {
+	return await findOne(TasksCollection, selector)
 }
