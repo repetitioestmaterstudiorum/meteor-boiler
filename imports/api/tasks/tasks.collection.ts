@@ -15,6 +15,8 @@ export type Task = {
 	isChecked: boolean
 }
 
-TasksCollection.createIndexAsync({ userId: 1 })
+if (Meteor.isServer) {
+	TasksCollection.createIndexAsync({ userId: 1 })
 
-createDefaultIndexes<Task>(TasksCollection)
+	createDefaultIndexes<Task>(TasksCollection)
+}

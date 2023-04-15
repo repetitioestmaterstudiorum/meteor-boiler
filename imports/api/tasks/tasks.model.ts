@@ -7,6 +7,7 @@ import {
 	find,
 	findOne,
 	MeteorMongoSelector,
+	FindOptions,
 } from '/imports/api/db/db.generic-methods'
 
 // ---
@@ -39,10 +40,10 @@ export async function removeTask({ taskId, userId }: { taskId: string; userId: s
 	return await remove(TasksCollection, { _id: taskId }, userId)
 }
 
-export function findTasks(selector: MeteorMongoSelector<Task>) {
-	return find(TasksCollection, selector)
+export function findTasks(selector: MeteorMongoSelector<Task>, options: FindOptions = {}) {
+	return find(TasksCollection, selector, options)
 }
 
-export async function findOneTask(selector: MeteorMongoSelector<Task>) {
-	return await findOne(TasksCollection, selector)
+export async function findOneTask(selector: MeteorMongoSelector<Task>, options: FindOptions = {}) {
+	return await findOne(TasksCollection, selector, options)
 }

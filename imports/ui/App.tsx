@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor'
 import React, { useState, Fragment } from 'react'
 import { useTracker } from 'meteor/react-meteor-data'
-import { TasksCollection } from '../api/tasks/tasks.collection'
-import { Task } from './Task'
-import { TaskForm } from './TaskForm'
-import { LoginForm } from './LoginForm'
+import { Task } from '/imports/ui/Task'
+import { TaskForm } from '/imports/ui/TaskForm'
+import { LoginForm } from '/imports/ui/LoginForm'
+import { findTasks } from '/imports/api/tasks/tasks.model'
 
 // ---
 
@@ -28,10 +28,10 @@ export function App() {
 			return { ...noData, isLoading: true }
 		}
 
-		const tasks = TasksCollection.find(hideCompleted ? pendingOnlyFilter : userFilter, {
+		const tasks = findTasks(hideCompleted ? pendingOnlyFilter : userFilter, {
 			sort: { createdAt: -1 },
 		}).fetch()
-		const pendingTasksCount = TasksCollection.find(pendingOnlyFilter).count()
+		const pendingTasksCount = findTasks(pendingOnlyFilter).count()
 
 		return { tasks, pendingTasksCount, isLoading: false }
 	})
@@ -57,7 +57,7 @@ export function App() {
 				{user ? (
 					<Fragment>
 						<div className="user" onClick={logout}>
-							{user.username || user.profile?.name} 🚪
+							{user.username} 🚪
 						</div>
 
 						<TaskForm />
