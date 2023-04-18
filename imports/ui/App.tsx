@@ -4,7 +4,7 @@ import { useTracker } from 'meteor/react-meteor-data'
 import { Task } from '/imports/ui/Task'
 import { TaskForm } from '/imports/ui/TaskForm'
 import { LoginForm } from '/imports/ui/LoginForm'
-import { findTasks } from '/imports/api/tasks/tasks.model'
+import { findTasks } from '/imports/api/collections/tasks/tasks.model'
 
 // ---
 

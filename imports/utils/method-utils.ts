@@ -1,15 +1,20 @@
-import { TasksCollection } from '/imports/api/tasks/tasks.collection'
+import { TasksCollection } from '/imports/api/collections/tasks/tasks.collection'
+import { UserMeta } from '/imports/api/collections/users/users.collection'
 
 // ---
 
 export async function requireUser() {
 	const user = await Meteor.userAsync()
+
 	if (!user) {
 		throw new Meteor.Error('Not authorized.')
 	}
-	return user
+
+	// @ts-ignore
+	return user as UserMeta
 }
 
+// TODO move this elsewhere
 export async function requireTaskUserOwnership({
 	taskId,
 	userId,

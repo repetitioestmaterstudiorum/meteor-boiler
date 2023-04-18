@@ -2,37 +2,44 @@ import { Mongo } from 'meteor/mongo'
 
 // ---
 
-export async function insert<T>(collection: MeteorMongoCollection<T>, document: T, userId: string) {
+export async function insert<T>(
+	collection: MeteorMongoCollection<T>,
+	document: WithOptionalMetaFields<T>
+) {
 	const timestamp = new Date()
 
 	const documentWithMetaFields = {
 		...document,
 		createdAt: timestamp,
-		createdBy: userId,
 		updatedAt: timestamp,
-		updatedBy: userId,
+		...(document.groupId ? { groupId: document.groupId } : {}),
+		...(document.userId ? { createdBy: document.userId, updatedBy: document.userId } : {}),
 	}
 
-	// @ts-ignore --> Meteor Mongo insertAsync has weird types, or I don't know how to use them
+	// @ts-ignore --> This is not ideal
 	return await collection.insertAsync(documentWithMetaFields)
 }
 
 export async function update<T>(
 	collection: MeteorMongoCollection<T>,
 	selector: MeteorMongoSelector<T>,
-	update: WithOptionalMetaFields<T>,
+	modifier: UpdateModifier<WithOptionalMetaFields<T>>,
 	userId: string,
 	options: UpdateOptions = {}
 ) {
 	const timestamp = new Date()
 
 	const updateWithMetaFields = {
-		...update,
-		updatedAt: timestamp,
-		updatedBy: userId,
+		...modifier,
+		$set: {
+			...(modifier.$set ? modifier.$set : {}),
+			updatedAt: timestamp,
+			updatedBy: userId,
+		},
 	}
 
-	return await collection.updateAsync(selector, { $set: updateWithMetaFields }, options)
+	// @ts-ignore --> This is not ideal
+	return await collection.updateAsync(selector, updateWithMetaFields, options)
 }
 
 export async function remove<T>(
@@ -47,6 +54,7 @@ export async function remove<T>(
 		deletedBy: userId,
 	}
 
+	// @ts-ignore --> This is not ideal
 	return await collection.updateAsync(selector, { $set: documentWithMetaFields }, { multi: true })
 }
 
@@ -55,13 +63,11 @@ export function find<T>(
 	selector: MeteorMongoSelector<T>,
 	options: FindOptions = {}
 ) {
-	return collection.find(
-		{
-			...selector,
-			deletedAt: { $exists: false },
-		},
-		options
-	)
+	const newSelector = {
+		...selector,
+		deletedAt: { $exists: false },
+	}
+	return collection.find(newSelector, options)
 }
 
 export async function findOne<T>(
@@ -69,17 +75,24 @@ export async function findOne<T>(
 	selector: MeteorMongoSelector<T>,
 	options: FindOptions = {}
 ) {
-	return await collection.findOneAsync(
-		{
-			...selector,
-			deletedAt: { $exists: false },
-		},
-		options
-	)
+	const newSelector = {
+		...selector,
+		deletedAt: { $exists: false },
+	}
+	return await collection.findOneAsync(newSelector, options)
 }
 
-export type WithOptionalMetaFields<T> = UnionPartial<WithMetaFields<T>>
-export type WithMetaFields<T> = T & MetaFields
+type MetaFields = {
+	_id: string
+	userId?: string
+	groupId?: string
+	createdAt: Date
+	createdBy: string
+	updatedAt: Date
+	updatedBy: string
+	deletedAt?: Date
+	deletedBy?: string
+}
 
 export type MeteorMongoCollection<T> = Mongo.Collection<
 	WithOptionalMetaFields<T>,
@@ -87,8 +100,30 @@ export type MeteorMongoCollection<T> = Mongo.Collection<
 >
 export type MeteorMongoSelector<T> = Mongo.Selector<WithOptionalMetaFields<T>>
 
-// This is a simplified version of the find options type from meteor/mongo
-// Unfortunately, the original type is not exported, so we can't use it directly
+export type WithMetaFields<T> = T & MetaFields
+export type WithOptionalMetaFields<T> = Omit<T, keyof MetaFields> &
+	Partial<Pick<T & MetaFields, keyof MetaFields>>
+
+/* The following types are copied from meteor/mongo because unfortunately the types are not exported from the package, so they can't be used directly. Some types are slightly simplified. Some types are also available in the mongodb Node.js driver package, but that package does not work on the client, and these methods will be used on the server and client. */
+export type UpdateModifier<T> = {
+	$currentDate?:
+		| (Partial<Record<keyof T, CurrentDateModifier>> & Dictionary<CurrentDateModifier>)
+		| undefined
+	$inc?: (PartialMapTo<T, number> & Dictionary<number>) | undefined
+	$min?: (PartialMapTo<T, Date | number> & Dictionary<Date | number>) | undefined
+	$max?: (PartialMapTo<T, Date | number> & Dictionary<Date | number>) | undefined
+	$mul?: (PartialMapTo<T, number> & Dictionary<number>) | undefined
+	$rename?: (PartialMapTo<T, string> & Dictionary<string>) | undefined
+	$set?: (Partial<T> & Dictionary<any>) | undefined
+	$setOnInsert?: (Partial<T> & Dictionary<any>) | undefined
+	$unset?: (PartialMapTo<T, string | boolean | 1 | 0> & Dictionary<any>) | undefined
+	$addToSet?: (ArraysOrEach<T> & Dictionary<any>) | undefined
+	$push?: (PushModifier<T> & Dictionary<any>) | undefined
+	$pull?: (ElementsOf<T> & Dictionary<any>) | undefined
+	$pullAll?: (Partial<T> & Dictionary<any>) | undefined
+	$pop?: (PartialMapTo<T, 1 | -1> & Dictionary<1 | -1>) | undefined
+}
+
 export type FindOptions = {
 	/** Sort order (default: natural order) */
 	sort?: Record<string, any> | undefined
@@ -105,8 +140,6 @@ export type FindOptions = {
 	// transform() was removed because
 }
 
-// This is a copy of the update options type from meteor/mongo
-// Unfortunately, the original type is not exported, so we can't use it directly
 export type UpdateOptions = {
 	/** True to modify all matching documents; false to only modify one of the matching documents (the default). */
 	multi?: boolean | undefined
@@ -119,14 +152,29 @@ export type UpdateOptions = {
 	arrayFilters?: { [identifier: string]: any }[] | undefined
 }
 
-type MetaFields = {
-	_id: string
-	createdAt: Date
-	createdBy: string
-	updatedAt: Date
-	updatedBy: string
-	deletedAt?: Date
-	deletedBy?: string
+type CurrentDateModifier = { $type: 'timestamp' | 'date' } | true
+
+type Dictionary<T> = { [key: string]: T }
+
+type PartialMapTo<T, M> = Partial<Record<keyof T, M>>
+
+type ArraysOrEach<T> = {
+	[P in keyof T]?: OnlyElementsOfArrays<T[P]> | { $each: T[P] }
 }
 
-type UnionPartial<T> = { [P in keyof T]?: T[P] | UnionPartial<T[P]> }
+type OnlyElementsOfArrays<T> = T extends any[] ? Partial<T[0]> : never
+
+type PushModifier<T> = {
+	[P in keyof T]?:
+		| OnlyElementsOfArrays<T[P]>
+		| {
+				$each?: T[P] | undefined
+				$position?: number | undefined
+				$slice?: number | undefined
+				$sort?: 1 | -1 | Dictionary<number> | undefined
+		  }
+}
+
+type ElementsOf<T> = {
+	[P in keyof T]?: OnlyElementsOfArrays<T[P]>
+}

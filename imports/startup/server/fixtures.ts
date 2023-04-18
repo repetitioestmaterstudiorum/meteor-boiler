@@ -1,4 +1,4 @@
-import { findTasks, insertTask } from '/imports/api/tasks/tasks.model'
+import { findTasks, insertTask } from '/imports/api/collections/tasks/tasks.model'
 
 // ---
 
@@ -26,5 +26,5 @@ if (findTasks({}).count() === 0) {
 		'Fifth Task',
 		'Sixth Task',
 		'Seventh Task',
-	].forEach(text => insertTask({ text, user }))
+	].forEach(text => insertTask(user._id, text))
 }
