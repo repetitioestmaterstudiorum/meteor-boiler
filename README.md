@@ -9,6 +9,10 @@ The following are the key differences to the todo react example on https://react
 -   [x] The folder structure is more similar to https://guide.meteor.com/structure.html
 -   [x] The new Async API is used: https://guide.meteor.com/2.8-migration.html
     -   Except for fetch and count on the client\*
+-   [x] Index Management in collection documents
+-   [x] Custom generic collection functions (insert, update, ...) that automatically handle some meta fields
+-   [x] Models per collection
+-   [ ] Schema enforcement
 -   [ ] Roles are set up: https://guide.meteor.com/accounts.html#roles-and-permissions
 -   [ ] There is a constants paradigm
 -   [ ] There is a configuration paradigm
