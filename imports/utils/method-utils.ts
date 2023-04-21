@@ -10,7 +10,6 @@ export async function requireUser() {
 		throw new Meteor.Error('Not authorized.')
 	}
 
-	// @ts-ignore
 	return user as UserMeta
 }
 

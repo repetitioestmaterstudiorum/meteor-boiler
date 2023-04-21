@@ -1,4 +1,3 @@
-// @ts-ignore --> Not typed
 import { Roles } from 'meteor/alanning:roles'
 
 // ---
