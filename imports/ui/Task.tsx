@@ -1,16 +1,15 @@
 import React from 'react';
-import type { Task } from '../api/tasks/tasks.collection';
-import { WithMetaFields } from '/imports/api/db/db.generic-methods';
+import type { TaskMeta } from '/imports/api/collections/tasks/tasks.collection';
 
 // ---
 
-export function Task({ task }: { task: WithMetaFields<Task> }) {
+export function Task({ task }: { task: TaskMeta }) {
 	return (
 		<li>
 			<input
 				type="checkbox"
 				checked={!!task.isChecked}
-				onClick={() => toggleChecked({ taskId: task._id, isChecked: task.isChecked })}
+				onClick={() => toggleChecked({ taskId: task._id })}
 				readOnly
 			/>
 			<span>{task.text}</span>
@@ -19,9 +18,9 @@ export function Task({ task }: { task: WithMetaFields<Task> }) {
 	);
 }
 
-async function toggleChecked({ taskId, isChecked }: { taskId: string; isChecked: boolean }) {
+async function toggleChecked({ taskId }: { taskId: string }) {
 	try {
-		await Meteor.callAsync('tasks.setIsChecked', { taskId, isChecked: !isChecked });
+		await Meteor.callAsync('tasks.toggleIsChecked', { taskId });
 	} catch (error) {
 		alert(error);
 	}

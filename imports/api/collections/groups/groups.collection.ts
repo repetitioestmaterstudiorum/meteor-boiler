@@ -1,6 +1,5 @@
 import { Mongo } from 'meteor/mongo';
 import { WithOptionalMetaFields, WithMetaFields } from '/imports/api/db/db.generic-methods';
-import { C } from '/imports/startup/global.constants';
 
 // ---
 
@@ -14,7 +13,3 @@ export type Group = {
 };
 export type GroupMeta = WithMetaFields<Group>;
 export type GroupMetaOptional = WithOptionalMetaFields<Group>;
-
-if (C.app.isServer) {
-	GroupsCollection.createIndexAsync({ groupId: 1 });
-}

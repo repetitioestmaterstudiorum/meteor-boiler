@@ -11,7 +11,25 @@ import {
 
 // ---
 
-export async function insertUser(username: string, password: string, groupId?: string) {
+export async function addUser(username: string, password: string, groupId?: string) {
+	return await insertUser(username, password, groupId);
+}
+
+export async function getUserByUsername(username: string, options?: FindOptions) {
+	return await findOneUser({ username }, options);
+}
+
+export async function getUserById(userId: UserMeta['_id'], options?: FindOptions) {
+	return await findOneUser({ _id: userId }, options);
+}
+
+export async function addUserToGroup(userId: UserMeta['_id'], groupId: UserMeta['groupId']) {
+	return await updateUser({ _id: userId }, userId, { $set: { groupId } });
+}
+
+// CRUD ------------------------------------------------------------------------
+
+async function insertUser(username: string, password: string, groupId?: string) {
 	Accounts.createUser({
 		// This is a special case where the insert generic method is not used because we need to create a Meteor user account, encrypt the password, and then create a document in the UsersCollection
 		username,
@@ -20,7 +38,7 @@ export async function insertUser(username: string, password: string, groupId?: s
 	});
 }
 
-export async function updateUser(
+async function updateUser(
 	selector: MeteorMongoSelector<User>,
 	userId: UserMeta['_id'],
 	modifier: UpdateModifier<User>
@@ -28,7 +46,7 @@ export async function updateUser(
 	return await update(UsersCollection, selector, modifier, userId);
 }
 
-export async function removeUser(selector: MeteorMongoSelector<User>, userId: UserMeta['_id']) {
+async function removeUser(selector: MeteorMongoSelector<User>, userId: UserMeta['_id']) {
 	return await remove(UsersCollection, selector, userId);
 }
 
@@ -36,6 +54,6 @@ export function findUsers(selector: MeteorMongoSelector<User>, options: FindOpti
 	return find(UsersCollection, selector, options);
 }
 
-export async function findOneUser(selector: MeteorMongoSelector<User>, options: FindOptions = {}) {
+async function findOneUser(selector: MeteorMongoSelector<User>, options: FindOptions = {}) {
 	return await findOne(UsersCollection, selector, options);
 }

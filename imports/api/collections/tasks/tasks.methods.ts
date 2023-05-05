@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
-import { requireTaskUserOwnership, requireUser } from '/imports/utils/method-utils';
-import { insertTask, removeTask, updateTask } from '/imports/api/collections/tasks/tasks.model';
+import { requireUser } from '/imports/utils/method-utils';
+import { addTask, deleteTask, toggleIsChecked } from '/imports/api/collections/tasks/tasks.model';
 
 // ---
 
@@ -10,24 +10,20 @@ Meteor.methods({
 		check(text, String);
 		const user = await requireUser();
 
-		return await insertTask(user._id, text);
+		return await addTask(text, user._id);
 	},
 
-	'tasks.setIsChecked': async ({ taskId, isChecked }: { taskId: string; isChecked: boolean }) => {
+	'tasks.toggleIsChecked': async ({ taskId }: { taskId: string }) => {
 		check(taskId, String);
-		check(isChecked, Boolean);
-
 		const user = await requireUser();
-		await requireTaskUserOwnership({ taskId, userId: user._id });
 
-		return await updateTask({ _id: taskId }, user._id, { $set: { isChecked } });
+		return await toggleIsChecked(taskId, user._id);
 	},
 
 	'tasks.remove': async ({ taskId }: { taskId: string }) => {
 		check(taskId, String);
 		const user = await requireUser();
-		await requireTaskUserOwnership({ taskId, userId: user._id });
 
-		return await removeTask({ _id: taskId }, user._id);
+		return await deleteTask(taskId, user._id);
 	},
 });

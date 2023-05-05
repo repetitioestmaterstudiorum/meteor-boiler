@@ -1,5 +1,5 @@
 import { Task, TaskMeta, TasksCollection } from '/imports/api/collections/tasks/tasks.collection';
-import { findOneUser } from '/imports/api/collections/users/users.model';
+import { getUserById } from '/imports/api/collections/users/users.model';
 import {
 	insert,
 	update,
@@ -13,8 +13,40 @@ import {
 
 // ---
 
-export async function insertTask(userId: TaskMeta['userId'], text: TaskMeta['text']) {
-	const groupId = (await findOneUser({ _id: userId }, { fields: { groupId: 1 } }))?.groupId;
+export async function addTask(userId: string, text: string) {
+	return await insertTask(userId, text);
+}
+
+export async function toggleIsChecked(taskId: string, userId: string) {
+	const task = await requireTaskUserOwnership({ taskId, userId });
+
+	return await updateTask({ _id: taskId }, userId, { $set: { isChecked: !task.isChecked } });
+}
+
+export async function getTasks(userId: string) {
+	return await findTasks({ userId });
+}
+
+export async function deleteTask(taskId: string, userId: string) {
+	await requireTaskUserOwnership({ taskId, userId });
+
+	return await removeTask({ _id: taskId }, userId);
+}
+
+// helpers ---------------------------------------------------------------------
+
+async function requireTaskUserOwnership({ taskId, userId }: { taskId: string; userId: string }) {
+	const task = await TasksCollection.findOneAsync({ _id: taskId, userId });
+	if (!task) {
+		throw new Meteor.Error('Access denied.');
+	}
+	return task;
+}
+
+// CRUD ------------------------------------------------------------------------
+
+async function insertTask(userId: TaskMeta['userId'], text: TaskMeta['text']) {
+	const groupId = (await getUserById(userId, { fields: { groupId: 1 } }))?.groupId;
 
 	return await insert(TasksCollection, {
 		...(groupId ? { groupId } : {}),
@@ -24,7 +56,7 @@ export async function insertTask(userId: TaskMeta['userId'], text: TaskMeta['tex
 	});
 }
 
-export async function updateTask(
+async function updateTask(
 	selector: MeteorMongoSelector<Task>,
 	userId: TaskMeta['userId'],
 	modifier: UpdateModifier<Task>
@@ -32,7 +64,7 @@ export async function updateTask(
 	return await update(TasksCollection, selector, modifier, userId);
 }
 
-export async function removeTask(selector: MeteorMongoSelector<Task>, userId: TaskMeta['userId']) {
+async function removeTask(selector: MeteorMongoSelector<Task>, userId: TaskMeta['userId']) {
 	return await remove(TasksCollection, selector, userId);
 }
 
@@ -40,6 +72,6 @@ export function findTasks(selector: MeteorMongoSelector<Task>, options: FindOpti
 	return find(TasksCollection, selector, options);
 }
 
-export async function findOneTask(selector: MeteorMongoSelector<Task>, options: FindOptions = {}) {
+async function findOneTask(selector: MeteorMongoSelector<Task>, options: FindOptions = {}) {
 	return await findOne(TasksCollection, selector, options);
 }
