@@ -7,24 +7,22 @@ Meteor Boilerplate based on the todo example app.
 The following are the key differences to the todo react example on https://react-tutorial.meteor.com/simple-todos/:
 
 -   [x] The folder structure is more similar to https://guide.meteor.com/structure.html
--   [x] The new Async API is used: https://guide.meteor.com/2.8-migration.html
-    -   Except for fetch and count on the client\*
+-   [x] The new Async API is used: https://guide.meteor.com/2.8-migration.html (with a few exceptions)
 -   [x] Index Management in collection documents
 -   [x] Custom generic collection functions (insert, update, ...) that automatically handle some meta fields
 -   [x] Models per collection
 -   [ ] Schema enforcement: I will wait until it's possible to create a schema from a TS type/interface in zod: https://github.com/colinhacks/zod/discussions/1928
+-   [ ] Migrations: depends on the schema
 -   [x] Roles are set up: https://guide.meteor.com/accounts.html#roles-and-permissions
 -   [x] There is a constants paradigm
 -   [x] There is a settings paradigm
--   [ ] Logging
+-   [x] Logging
 -   [ ] Tailwind is used: https://github.com/meteor/examples/tree/main/tailwindcss
 
-What's still missing:
+Out of scope:
 
--   Schema (as documented above)
--   Error service
--   Migrations solution
--   Dependency injection container
+-   Error service (depends a lot on the project) -> can be added to the logger utility
+-   Dependency injection container - documented in the takeaways section
 -   Tests
 
 ## Using This Repo

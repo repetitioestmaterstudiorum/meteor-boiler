@@ -10,7 +10,7 @@ Meteor.methods({
 		check(text, String);
 		const user = await requireUser();
 
-		return await addTask(text, user._id);
+		return await addTask(user._id, text);
 	},
 
 	'tasks.toggleIsChecked': async ({ taskId }: { taskId: string }) => {

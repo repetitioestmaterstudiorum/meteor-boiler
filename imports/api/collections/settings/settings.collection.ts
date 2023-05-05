@@ -1,8 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import { WithOptionalMetaFields, WithMetaFields } from '/imports/api/db/db.generic-methods';
-import { C } from '/imports/startup/global.constants';
 import { defaultSettings } from '/imports/api/collections/settings/default-settings';
-import { NestedKeyOf } from '/imports/utils/types.utils';
+import { NestedKeyOf } from '/imports/utils/type-utils';
 
 // ---
 

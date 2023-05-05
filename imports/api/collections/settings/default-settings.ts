@@ -1,5 +1,6 @@
 export const defaultSettings = {
-	someSetting: {
-		xyz: 'hurray - this is the default config',
+	logtail: {
+		url: 'https://in.logtail.com',
+		token: process.env.LOGTAIL_TOKEN as string,
 	},
 };
