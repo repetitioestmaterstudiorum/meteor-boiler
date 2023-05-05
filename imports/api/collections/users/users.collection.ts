@@ -3,6 +3,7 @@ import {
 	WithMetaFields,
 	WithOptionalMetaFields,
 } from '/imports/api/db/db.generic-methods';
+import { C } from '/imports/startup/global.constants';
 
 // ---
 
@@ -33,6 +34,6 @@ export type User = {
 export type UserMeta = WithMetaFields<User>;
 export type UserMetaOptional = WithOptionalMetaFields<User>;
 
-if (Meteor.isServer) {
+if (C.app.isServer) {
 	UsersCollection.createIndexAsync({ groupId: 1 });
 }

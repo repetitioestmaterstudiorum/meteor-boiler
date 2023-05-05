@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import { WithOptionalMetaFields, WithMetaFields } from '/imports/api/db/db.generic-methods';
+import { C } from '/imports/startup/global.constants';
 
 // ---
 
@@ -14,6 +15,6 @@ export type Task = {
 export type TaskMeta = WithMetaFields<Task>;
 export type TaskMetaOptional = WithOptionalMetaFields<Task>;
 
-if (Meteor.isServer) {
+if (C.app.isServer) {
 	TasksCollection.createIndexAsync({ userId: 1 });
 }
