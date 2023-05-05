@@ -11,12 +11,12 @@ import {
 
 // ---
 
-export async function insertUser(email: string, password: string, groupId?: string) {
+export async function insertUser(username: string, password: string, groupId?: string) {
 	if (!Meteor.isServer) throw new Error('insertUser method called on the client');
 
 	Accounts.createUser({
 		// This is a special case where the insert generic method is not used because we need to create a Meteor user account, encrypt the password, and then create a document in the UsersCollection
-		email,
+		username,
 		password,
 		...(groupId ? { profile: { groupId } } : {}),
 	});
