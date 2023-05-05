@@ -41,9 +41,11 @@ function logToStd({ text, data, severity, timestamp }: RetriableFnParams) {
 	// Color codes for logging (https://simplernerd.com/js-console-colors/)
 	const colorCode = severity === 'info' ? '\x1b[32m%s\x1b[0m' : '\x1b[31m%s\x1b[0m';
 
+	// @ts-ignore
 	console[severity](colorCode, `${timestamp.toISOString()}`, text);
 	if (data) {
 		if (_.isObject(data) && !_.isEmpty(data)) data = JSON.stringify(data, null, 2);
+		// @ts-ignore
 		console[severity](data);
 	}
 }

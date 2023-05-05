@@ -5,7 +5,6 @@ import {
 	update,
 	remove,
 	find,
-	findOne,
 	MeteorMongoSelector,
 	FindOptions,
 	UpdateModifier,
@@ -70,8 +69,4 @@ async function removeTask(selector: MeteorMongoSelector<Task>, userId: TaskMeta[
 
 export function findTasks(selector: MeteorMongoSelector<Task>, options: FindOptions = {}) {
 	return find(TasksCollection, selector, options);
-}
-
-async function findOneTask(selector: MeteorMongoSelector<Task>, options: FindOptions = {}) {
-	return await findOne(TasksCollection, selector, options);
 }

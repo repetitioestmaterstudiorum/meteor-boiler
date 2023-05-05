@@ -54,9 +54,9 @@ export async function remove<T>(
 		deletedBy: userId,
 	};
 
-	// @ts-ignore --> This is not ideal
 	return await collection.updateAsync(
 		selector,
+		// @ts-ignore --> This is not ideal
 		{ $set: documentWithMetaFields },
 		{ multi: true }
 	);

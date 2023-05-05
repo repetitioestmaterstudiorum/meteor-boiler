@@ -1,7 +1,6 @@
 import { User, UserMeta, UsersCollection } from './users.collection';
 import {
 	update,
-	remove,
 	find,
 	findOne,
 	MeteorMongoSelector,
@@ -44,10 +43,6 @@ async function updateUser(
 	modifier: UpdateModifier<User>
 ) {
 	return await update(UsersCollection, selector, modifier, userId);
-}
-
-async function removeUser(selector: MeteorMongoSelector<User>, userId: UserMeta['_id']) {
-	return await remove(UsersCollection, selector, userId);
 }
 
 export function findUsers(selector: MeteorMongoSelector<User>, options: FindOptions = {}) {
