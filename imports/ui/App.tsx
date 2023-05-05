@@ -45,10 +45,14 @@ export function App() {
 			<header>
 				<div className="app-bar">
 					<div className="app-header">
-						<h1>
-							📝️ To Do List
+						<h1 className="text-3xl">
+							📝️ Meteor Boiler Todo List
 							{pendingTasksTitle}
 						</h1>
+						<p>
+							Tipp: Todo lists are OK tools to keep a record of tasks. But use your
+							calendar to plan the tasks, to decrease todo-list-stress :)
+						</p>
 					</div>
 				</div>
 			</header>
