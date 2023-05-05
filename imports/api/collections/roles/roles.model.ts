@@ -11,7 +11,7 @@ export function addUsersToRoles(userId: string, roles: string[], scope: string |
 }
 
 export function userIsInRole(userId: string, roles: string[]) {
-	Roles.userIsInRole(userId, roles);
+	return Roles.userIsInRole(userId, roles);
 }
 
 export function removeUsersFromRoles(userId: string, roles: string[]) {

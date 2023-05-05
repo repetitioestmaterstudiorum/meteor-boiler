@@ -1,4 +1,4 @@
-import { Task, TaskMeta, TasksCollection } from './tasks.collection';
+import { Task, TaskMeta, TasksCollection } from '/imports/api/collections/tasks/tasks.collection';
 import { findOneUser } from '/imports/api/collections/users/users.model';
 import {
 	insert,
