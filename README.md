@@ -22,8 +22,8 @@ The following are the key differences to the todo react example on https://react
 Out of scope:
 
 -   Error service (depends a lot on the project) -> can be added to the logger utility
+-   Tests (Recommended route: [meteormocha](https://github.com/Meteor-Community-Packages/meteor-mocha))
 -   Dependency injection container - documented in the takeaways section
--   Tests
 
 ## Using This Repo
 
@@ -38,10 +38,6 @@ If you use this in production, follow this security guide: https://guide.meteor.
 
 -   Meteor: `meteor update`
 -   NPM: `npx npm-check-updates -u` and then `npm install`
-
-## Testing
-
--   Not implemented yet. Recommended route: [meteormocha](https://github.com/Meteor-Community-Packages/meteor-mocha)
 
 ## Takeaways
 
