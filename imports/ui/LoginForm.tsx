@@ -1,16 +1,16 @@
-import { Meteor } from 'meteor/meteor'
-import React, { useState } from 'react'
+import { Meteor } from 'meteor/meteor';
+import React, { useState } from 'react';
 
 // ---
 
 export const LoginForm = () => {
-	const [username, setUsername] = useState('')
-	const [password, setPassword] = useState('')
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
 
 	function submit(event: React.FormEvent<HTMLFormElement>) {
-		event.preventDefault()
+		event.preventDefault();
 
-		Meteor.loginWithPassword(username, password)
+		Meteor.loginWithPassword(username, password);
 	}
 
 	return (
@@ -41,5 +41,5 @@ export const LoginForm = () => {
 				<button type="submit">Log In</button>
 			</div>
 		</form>
-	)
-}
+	);
+};

@@ -1,5 +1,5 @@
-import { Task, TaskMeta, TasksCollection } from './tasks.collection'
-import { findOneUser } from '/imports/api/collections/users/users.model'
+import { Task, TaskMeta, TasksCollection } from './tasks.collection';
+import { findOneUser } from '/imports/api/collections/users/users.model';
 import {
 	insert,
 	update,
@@ -9,19 +9,19 @@ import {
 	MeteorMongoSelector,
 	FindOptions,
 	UpdateModifier,
-} from '/imports/api/db/db.generic-methods'
+} from '/imports/api/db/db.generic-methods';
 
 // ---
 
 export async function insertTask(userId: TaskMeta['userId'], text: TaskMeta['text']) {
-	const groupId = (await findOneUser({ _id: userId }, { fields: { groupId: 1 } }))?.groupId
+	const groupId = (await findOneUser({ _id: userId }, { fields: { groupId: 1 } }))?.groupId;
 
 	return await insert(TasksCollection, {
 		...(groupId ? { groupId } : {}),
 		userId,
 		text,
 		isChecked: false,
-	})
+	});
 }
 
 export async function updateTask(
@@ -29,17 +29,17 @@ export async function updateTask(
 	userId: TaskMeta['userId'],
 	modifier: UpdateModifier<Task>
 ) {
-	return await update(TasksCollection, selector, modifier, userId)
+	return await update(TasksCollection, selector, modifier, userId);
 }
 
 export async function removeTask(selector: MeteorMongoSelector<Task>, userId: TaskMeta['userId']) {
-	return await remove(TasksCollection, selector, userId)
+	return await remove(TasksCollection, selector, userId);
 }
 
 export function findTasks(selector: MeteorMongoSelector<Task>, options: FindOptions = {}) {
-	return find(TasksCollection, selector, options)
+	return find(TasksCollection, selector, options);
 }
 
 export async function findOneTask(selector: MeteorMongoSelector<Task>, options: FindOptions = {}) {
-	return await findOne(TasksCollection, selector, options)
+	return await findOne(TasksCollection, selector, options);
 }

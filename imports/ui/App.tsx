@@ -1,44 +1,44 @@
-import { Meteor } from 'meteor/meteor'
-import React, { useState, Fragment } from 'react'
-import { useTracker } from 'meteor/react-meteor-data'
-import { Task } from '/imports/ui/Task'
-import { TaskForm } from '/imports/ui/TaskForm'
-import { LoginForm } from '/imports/ui/LoginForm'
-import { findTasks } from '/imports/api/collections/tasks/tasks.model'
+import { Meteor } from 'meteor/meteor';
+import React, { useState, Fragment } from 'react';
+import { useTracker } from 'meteor/react-meteor-data';
+import { Task } from '/imports/ui/Task';
+import { TaskForm } from '/imports/ui/TaskForm';
+import { LoginForm } from '/imports/ui/LoginForm';
+import { findTasks } from '/imports/api/collections/tasks/tasks.model';
 
 // ---
 
 export function App() {
-	const user = useTracker(() => Meteor.user())
-	const [hideCompleted, setHideCompleted] = useState(false)
+	const user = useTracker(() => Meteor.user());
+	const [hideCompleted, setHideCompleted] = useState(false);
 
-	const userFilter = user ? { userId: user._id } : {}
-	const hideCompletedFilter = { isChecked: { $ne: true } }
+	const userFilter = user ? { userId: user._id } : {};
+	const hideCompletedFilter = { isChecked: { $ne: true } };
 
-	const pendingOnlyFilter = { ...userFilter, ...hideCompletedFilter }
+	const pendingOnlyFilter = { ...userFilter, ...hideCompletedFilter };
 
 	const { tasks, pendingTasksCount, isLoading } = useTracker(() => {
-		const noData = { tasks: [], pendingTasksCount: 0 }
+		const noData = { tasks: [], pendingTasksCount: 0 };
 		if (!Meteor.user()) {
-			return { ...noData, isLoading: false }
+			return { ...noData, isLoading: false };
 		}
 
-		const subscriptionHandler = Meteor.subscribe('tasks')
+		const subscriptionHandler = Meteor.subscribe('tasks');
 		if (!subscriptionHandler.ready()) {
-			return { ...noData, isLoading: true }
+			return { ...noData, isLoading: true };
 		}
 
 		const tasks = findTasks(hideCompleted ? pendingOnlyFilter : userFilter, {
 			sort: { createdAt: -1 },
-		}).fetch()
-		const pendingTasksCount = findTasks(pendingOnlyFilter).count()
+		}).fetch();
+		const pendingTasksCount = findTasks(pendingOnlyFilter).count();
 
-		return { tasks, pendingTasksCount, isLoading: false }
-	})
+		return { tasks, pendingTasksCount, isLoading: false };
+	});
 
-	const pendingTasksTitle = `${pendingTasksCount ? ` (${pendingTasksCount})` : ''}`
+	const pendingTasksTitle = `${pendingTasksCount ? ` (${pendingTasksCount})` : ''}`;
 
-	const logout = () => Meteor.logout()
+	const logout = () => Meteor.logout();
 
 	return (
 		<div className="app">
@@ -81,5 +81,5 @@ export function App() {
 				)}
 			</div>
 		</div>
-	)
+	);
 }

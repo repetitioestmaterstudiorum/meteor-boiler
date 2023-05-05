@@ -12,8 +12,8 @@ The following are the key differences to the todo react example on https://react
 -   [x] Index Management in collection documents
 -   [x] Custom generic collection functions (insert, update, ...) that automatically handle some meta fields
 -   [x] Models per collection
--   [ ] Schema enforcement
--   [ ] Roles are set up: https://guide.meteor.com/accounts.html#roles-and-permissions
+-   [ ] Schema enforcement: I will wait until it's possible to create a schema from a TS type/interface in zod: https://github.com/colinhacks/zod/discussions/1928
+-   [x] Roles are set up: https://guide.meteor.com/accounts.html#roles-and-permissions
 -   [ ] There is a constants paradigm
 -   [ ] There is a configuration paradigm
 -   [ ] Tailwind is used: https://github.com/meteor/examples/tree/main/tailwindcss

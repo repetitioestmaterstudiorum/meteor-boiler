@@ -9,7 +9,8 @@
     "lint": "eslint 'imports/**/*.{ts,tsx}'",
     "tsc": "tsc --noEmit -p tsconfig.json",
     "reset": "meteor reset && rimraf package-lock.json && rimraf node_modules/",
-    "start": "meteor run"
+    "start": "meteor run",
+    "format": "prettier --write ."
   },
   "engines": {
     "node": "^16"
@@ -21,7 +22,8 @@
     "meteor-node-stubs": "^1.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.10.0"
+    "react-router-dom": "^6.10.0",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.194",

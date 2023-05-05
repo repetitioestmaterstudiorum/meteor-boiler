@@ -1,23 +1,23 @@
-import { Meteor } from 'meteor/meteor'
-import React, { useState } from 'react'
+import { Meteor } from 'meteor/meteor';
+import React, { useState } from 'react';
 
 // ---
 
 export function TaskForm() {
-	const [text, setText] = useState('')
+	const [text, setText] = useState('');
 
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-		event.preventDefault()
+		event.preventDefault();
 
-		if (!text) return
+		if (!text) return;
 
 		try {
-			await Meteor.callAsync('tasks.insert', { text })
+			await Meteor.callAsync('tasks.insert', { text });
 		} catch (error) {
-			alert(error)
+			alert(error);
 		}
 
-		setText('')
+		setText('');
 	}
 
 	return (
@@ -31,5 +31,5 @@ export function TaskForm() {
 
 			<button type="submit">Add Task</button>
 		</form>
-	)
+	);
 }

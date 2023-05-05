@@ -1,4 +1,4 @@
-import { Mongo } from 'meteor/mongo'
+import { Mongo } from 'meteor/mongo';
 
 // ---
 
@@ -6,7 +6,7 @@ export async function insert<T>(
 	collection: MeteorMongoCollection<T>,
 	document: WithOptionalMetaFields<T>
 ) {
-	const timestamp = new Date()
+	const timestamp = new Date();
 
 	const documentWithMetaFields = {
 		...document,
@@ -14,10 +14,10 @@ export async function insert<T>(
 		updatedAt: timestamp,
 		...(document.groupId ? { groupId: document.groupId } : {}),
 		...(document.userId ? { createdBy: document.userId, updatedBy: document.userId } : {}),
-	}
+	};
 
 	// @ts-ignore --> This is not ideal
-	return await collection.insertAsync(documentWithMetaFields)
+	return await collection.insertAsync(documentWithMetaFields);
 }
 
 export async function update<T>(
@@ -27,7 +27,7 @@ export async function update<T>(
 	userId: string,
 	options: UpdateOptions = {}
 ) {
-	const timestamp = new Date()
+	const timestamp = new Date();
 
 	const updateWithMetaFields = {
 		...modifier,
@@ -36,10 +36,10 @@ export async function update<T>(
 			updatedAt: timestamp,
 			updatedBy: userId,
 		},
-	}
+	};
 
 	// @ts-ignore --> This is not ideal
-	return await collection.updateAsync(selector, updateWithMetaFields, options)
+	return await collection.updateAsync(selector, updateWithMetaFields, options);
 }
 
 export async function remove<T>(
@@ -47,15 +47,19 @@ export async function remove<T>(
 	selector: MeteorMongoSelector<T>,
 	userId: string
 ) {
-	const timestamp = new Date()
+	const timestamp = new Date();
 
 	const documentWithMetaFields = {
 		deletedAt: timestamp,
 		deletedBy: userId,
-	}
+	};
 
 	// @ts-ignore --> This is not ideal
-	return await collection.updateAsync(selector, { $set: documentWithMetaFields }, { multi: true })
+	return await collection.updateAsync(
+		selector,
+		{ $set: documentWithMetaFields },
+		{ multi: true }
+	);
 }
 
 export function find<T>(
@@ -66,8 +70,8 @@ export function find<T>(
 	const newSelector = {
 		...selector,
 		deletedAt: { $exists: false },
-	}
-	return collection.find(newSelector, options)
+	};
+	return collection.find(newSelector, options);
 }
 
 export async function findOne<T>(
@@ -78,103 +82,103 @@ export async function findOne<T>(
 	const newSelector = {
 		...selector,
 		deletedAt: { $exists: false },
-	}
-	return await collection.findOneAsync(newSelector, options)
+	};
+	return await collection.findOneAsync(newSelector, options);
 }
 
 type MetaFields = {
-	_id: string
-	userId?: string
-	groupId?: string
-	createdAt: Date
-	createdBy: string
-	updatedAt: Date
-	updatedBy: string
-	deletedAt?: Date
-	deletedBy?: string
-}
+	_id: string;
+	userId?: string;
+	groupId?: string;
+	createdAt: Date;
+	createdBy: string;
+	updatedAt: Date;
+	updatedBy: string;
+	deletedAt?: Date;
+	deletedBy?: string;
+};
 
 export type MeteorMongoCollection<T> = Mongo.Collection<
 	WithOptionalMetaFields<T>,
 	WithMetaFields<T>
->
-export type MeteorMongoSelector<T> = Mongo.Selector<WithOptionalMetaFields<T>>
+>;
+export type MeteorMongoSelector<T> = Mongo.Selector<WithOptionalMetaFields<T>>;
 
-export type WithMetaFields<T> = T & MetaFields
+export type WithMetaFields<T> = T & MetaFields;
 export type WithOptionalMetaFields<T> = Omit<T, keyof MetaFields> &
-	Partial<Pick<T & MetaFields, keyof MetaFields>>
+	Partial<Pick<T & MetaFields, keyof MetaFields>>;
 
 /* The following types are copied from meteor/mongo because unfortunately the types are not exported from the package, so they can't be used directly. Some types are slightly simplified. Some types are also available in the mongodb Node.js driver package, but that package does not work on the client, and these methods will be used on the server and client. */
 export type UpdateModifier<T> = {
 	$currentDate?:
 		| (Partial<Record<keyof T, CurrentDateModifier>> & Dictionary<CurrentDateModifier>)
-		| undefined
-	$inc?: (PartialMapTo<T, number> & Dictionary<number>) | undefined
-	$min?: (PartialMapTo<T, Date | number> & Dictionary<Date | number>) | undefined
-	$max?: (PartialMapTo<T, Date | number> & Dictionary<Date | number>) | undefined
-	$mul?: (PartialMapTo<T, number> & Dictionary<number>) | undefined
-	$rename?: (PartialMapTo<T, string> & Dictionary<string>) | undefined
-	$set?: (Partial<T> & Dictionary<any>) | undefined
-	$setOnInsert?: (Partial<T> & Dictionary<any>) | undefined
-	$unset?: (PartialMapTo<T, string | boolean | 1 | 0> & Dictionary<any>) | undefined
-	$addToSet?: (ArraysOrEach<T> & Dictionary<any>) | undefined
-	$push?: (PushModifier<T> & Dictionary<any>) | undefined
-	$pull?: (ElementsOf<T> & Dictionary<any>) | undefined
-	$pullAll?: (Partial<T> & Dictionary<any>) | undefined
-	$pop?: (PartialMapTo<T, 1 | -1> & Dictionary<1 | -1>) | undefined
-}
+		| undefined;
+	$inc?: (PartialMapTo<T, number> & Dictionary<number>) | undefined;
+	$min?: (PartialMapTo<T, Date | number> & Dictionary<Date | number>) | undefined;
+	$max?: (PartialMapTo<T, Date | number> & Dictionary<Date | number>) | undefined;
+	$mul?: (PartialMapTo<T, number> & Dictionary<number>) | undefined;
+	$rename?: (PartialMapTo<T, string> & Dictionary<string>) | undefined;
+	$set?: (Partial<T> & Dictionary<any>) | undefined;
+	$setOnInsert?: (Partial<T> & Dictionary<any>) | undefined;
+	$unset?: (PartialMapTo<T, string | boolean | 1 | 0> & Dictionary<any>) | undefined;
+	$addToSet?: (ArraysOrEach<T> & Dictionary<any>) | undefined;
+	$push?: (PushModifier<T> & Dictionary<any>) | undefined;
+	$pull?: (ElementsOf<T> & Dictionary<any>) | undefined;
+	$pullAll?: (Partial<T> & Dictionary<any>) | undefined;
+	$pop?: (PartialMapTo<T, 1 | -1> & Dictionary<1 | -1>) | undefined;
+};
 
 export type FindOptions = {
 	/** Sort order (default: natural order) */
-	sort?: Record<string, any> | undefined
+	sort?: Record<string, any> | undefined;
 	/** Number of results to skip at the beginning */
-	skip?: number | undefined
+	skip?: number | undefined;
 	/** Maximum number of results to return */
-	limit?: number | undefined
+	limit?: number | undefined;
 	/** Dictionary of fields to return or exclude. */
-	fields?: { [id: string]: number } | undefined
+	fields?: { [id: string]: number } | undefined;
 	/** (Server only) Overrides MongoDB's default index selection and query optimization process. Specify an index to force its use, either by its name or index specification. */
-	hint?: string | Document | undefined
+	hint?: string | Document | undefined;
 	/** (Client only) Default `true`; pass `false` to disable reactivity */
-	reactive?: boolean | undefined
+	reactive?: boolean | undefined;
 	// transform() was removed because
-}
+};
 
 export type UpdateOptions = {
 	/** True to modify all matching documents; false to only modify one of the matching documents (the default). */
-	multi?: boolean | undefined
+	multi?: boolean | undefined;
 	/** True to insert a document if no matching documents are found. */
-	upsert?: boolean | undefined
+	upsert?: boolean | undefined;
 	/**
 	 * Used in combination with MongoDB [filtered positional operator](https://docs.mongodb.com/manual/reference/operator/update/positional-filtered/) to specify which elements to
 	 * modify in an array field.
 	 */
-	arrayFilters?: { [identifier: string]: any }[] | undefined
-}
+	arrayFilters?: { [identifier: string]: any }[] | undefined;
+};
 
-type CurrentDateModifier = { $type: 'timestamp' | 'date' } | true
+type CurrentDateModifier = { $type: 'timestamp' | 'date' } | true;
 
-type Dictionary<T> = { [key: string]: T }
+type Dictionary<T> = { [key: string]: T };
 
-type PartialMapTo<T, M> = Partial<Record<keyof T, M>>
+type PartialMapTo<T, M> = Partial<Record<keyof T, M>>;
 
 type ArraysOrEach<T> = {
-	[P in keyof T]?: OnlyElementsOfArrays<T[P]> | { $each: T[P] }
-}
+	[P in keyof T]?: OnlyElementsOfArrays<T[P]> | { $each: T[P] };
+};
 
-type OnlyElementsOfArrays<T> = T extends any[] ? Partial<T[0]> : never
+type OnlyElementsOfArrays<T> = T extends any[] ? Partial<T[0]> : never;
 
 type PushModifier<T> = {
 	[P in keyof T]?:
 		| OnlyElementsOfArrays<T[P]>
 		| {
-				$each?: T[P] | undefined
-				$position?: number | undefined
-				$slice?: number | undefined
-				$sort?: 1 | -1 | Dictionary<number> | undefined
-		  }
-}
+				$each?: T[P] | undefined;
+				$position?: number | undefined;
+				$slice?: number | undefined;
+				$sort?: 1 | -1 | Dictionary<number> | undefined;
+		  };
+};
 
 type ElementsOf<T> = {
-	[P in keyof T]?: OnlyElementsOfArrays<T[P]>
-}
+	[P in keyof T]?: OnlyElementsOfArrays<T[P]>;
+};

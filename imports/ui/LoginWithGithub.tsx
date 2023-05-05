@@ -1,5 +1,5 @@
-import React from 'react'
-import { Meteor } from 'meteor/meteor'
+import React from 'react';
+import { Meteor } from 'meteor/meteor';
 
 // ---
 
@@ -8,7 +8,7 @@ export const LoginWithGithub = () => {
 		Meteor.loginWithGithub({
 			requestPermissions: ['user'],
 			loginStyle: 'popup',
-		})
+		});
 	}
 
 	return (
@@ -20,5 +20,5 @@ export const LoginWithGithub = () => {
 				</svg>
 			</div>
 		</button>
-	)
-}
+	);
+};

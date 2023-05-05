@@ -1,14 +1,20 @@
-import { Accounts } from 'meteor/accounts-base'
+import { Accounts } from 'meteor/accounts-base';
 
 // ---
 
 // Deny all client-side updates to user documents
 Meteor.users.deny({
-	update() {
-		return true
+	insert() {
+		return true;
 	},
-})
+	update() {
+		return true;
+	},
+	remove() {
+		return true;
+	},
+});
 
 Accounts.config({
 	forbidClientAccountCreation: true,
-})
+});
