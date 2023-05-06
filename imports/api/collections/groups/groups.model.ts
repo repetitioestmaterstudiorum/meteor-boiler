@@ -27,7 +27,7 @@ async function insertGroup(name: string) {
 	return await insert(GroupsCollection, { name });
 }
 
-export async function findGroups(selector: MeteorMongoSelector<Group>, options: FindOptions = {}) {
+export function findGroups(selector: MeteorMongoSelector<Group>, options: FindOptions = {}) {
 	return find(GroupsCollection, selector, options);
 }
 

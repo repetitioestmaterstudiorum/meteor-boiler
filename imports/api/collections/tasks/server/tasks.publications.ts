@@ -1,11 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { findTasks } from '/imports/api/collections/tasks/tasks.model';
-import { requireUser } from '/imports/utils/method-utils';
 
 // ---
 
 Meteor.publish('tasks', async function () {
-	const user = await requireUser();
+	if (!this.userId) return this.ready();
 
-	return findTasks({ userId: user._id });
+	return findTasks({ userId: this.userId });
 });

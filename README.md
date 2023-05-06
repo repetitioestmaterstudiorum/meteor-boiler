@@ -17,6 +17,7 @@ The following are the key differences to the todo react example on https://react
 -   [x] There is a constants paradigm
 -   [x] There is a settings paradigm
 -   [x] Logging
+-   [x] React Router Setup
 -   [ ] Tailwind is used: https://github.com/meteor/examples/tree/main/tailwindcss
 
 Out of scope:

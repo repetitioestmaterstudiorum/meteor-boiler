@@ -2,6 +2,11 @@ import { Roles } from 'meteor/alanning:roles';
 
 // ---
 
+export function getIsAdmin(userId: string) {
+	if (!userId) return false;
+	return Roles.userIsInRole(userId, ['admin']);
+}
+
 export function createRole(role: string) {
 	Roles.createRole(role, { unlessExists: true });
 }

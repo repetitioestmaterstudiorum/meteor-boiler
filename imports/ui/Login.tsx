@@ -1,9 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import React, { useState } from 'react';
+import { UserMeta } from '/imports/api/collections/users/users.collection';
+import { useTracker } from 'meteor/react-meteor-data';
 
 // ---
 
-export const LoginForm = () => {
+export function Login() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -12,6 +14,10 @@ export const LoginForm = () => {
 
 		Meteor.loginWithPassword(username, password);
 	}
+
+	const user = useTracker(() => Meteor.user() as UserMeta | null);
+
+	if (user) window.location.href = '/';
 
 	return (
 		<form onSubmit={submit} className="login-form">
@@ -42,4 +48,4 @@ export const LoginForm = () => {
 			</div>
 		</form>
 	);
-};
+}
