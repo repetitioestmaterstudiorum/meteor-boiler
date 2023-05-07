@@ -4,13 +4,9 @@ import { log } from '/imports/utils/logger';
 
 export function ErrorPage() {
 	const error = useRouteError() as Error;
-	const navigate = useNavigate();
+	log.error('ErrorPage error', error);
 
-	log({
-		text: 'ErrorPage error',
-		data: error,
-		severity: 'error',
-	});
+	const navigate = useNavigate();
 
 	return (
 		<div className="flex flex-col items-center justify-center h-screen bg-gray-50">

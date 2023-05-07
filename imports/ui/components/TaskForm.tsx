@@ -24,7 +24,7 @@ export function TaskForm() {
 			await Meteor.callAsync('tasks.insert', { text });
 		} catch (error) {
 			const errorMessage = getErrMsg(error);
-			log({ text: `handleSubmit() ${errorMessage}`, severity: 'error', data: error });
+			log.error(`handleSubmit() ${errorMessage}`, error);
 			Swal.fire({
 				title: 'Error',
 				text: errorMessage,

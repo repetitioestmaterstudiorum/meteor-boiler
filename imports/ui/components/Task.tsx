@@ -35,7 +35,7 @@ async function toggleChecked({ taskId }: { taskId: string }) {
 		await Meteor.callAsync('tasks.toggleIsChecked', { taskId });
 	} catch (error) {
 		const errorMessge = getErrMsg(error);
-		log({ text: `toggleChecked() ${errorMessge}`, severity: 'error', data: error });
+		log.error(`toggleChecked() ${errorMessge}`, error);
 		Swal.fire({
 			title: 'Error',
 			text: errorMessge,
@@ -49,7 +49,7 @@ async function deleteTask({ taskId }: { taskId: string }) {
 		await Meteor.callAsync('tasks.remove', { taskId });
 	} catch (error) {
 		const errorMessge = getErrMsg(error);
-		log({ text: `deleteTask() ${errorMessge}`, severity: 'error', data: error });
+		log.error(`deleteTask() ${errorMessge}`, error);
 		Swal.fire({
 			title: 'Error',
 			text: errorMessge,

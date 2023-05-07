@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import axios from 'axios';
 import { Log } from '/imports/api/collections/logs/logs.collection';
-import { addLog } from '/imports/api/collections/logs/logs.model';
+import { insertLog } from '/imports/api/collections/logs/logs.model';
 import { scrubServerData, sensitiveStrings } from '/imports/utils/privacy-utils';
 import { getErrMsg } from '/imports/utils/error-utils';
 import { getSetting } from '/imports/api/collections/settings/settings.model';
@@ -9,7 +9,12 @@ import { C } from '/imports/startup/global.constants';
 
 // ---
 
-export async function log({ text, data, severity = 'info' }: LogParams) {
+export const log = {
+	info: (text: string, data?: LogParams['data']) => logger({ text, data, severity: 'info' }),
+	error: (text: string, data?: LogParams['data']) => logger({ text, data, severity: 'error' }),
+};
+
+async function logger({ text, data, severity = 'info' }: LogParams) {
 	const timestamp = new Date();
 	const dataSafe = scrubServerData(data, sensitiveStrings);
 
@@ -60,7 +65,7 @@ async function logToDb({ text, data, severity, timestamp }: RetriableFnParams) {
 		env: C.app.env,
 	};
 
-	addLog(log);
+	insertLog(log);
 }
 
 async function logToLogtail({ text, data, severity, timestamp }: RetriableFnParams) {

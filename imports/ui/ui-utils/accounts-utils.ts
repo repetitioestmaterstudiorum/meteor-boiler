@@ -8,9 +8,8 @@ import Swal from 'sweetalert2';
 export function login(email: string, password: string) {
 	Meteor.loginWithPassword({ email }, password, (error?: Meteor.Error | Error) => {
 		if (error) {
-			log({ text: 'login() error', severity: 'error', data: error });
-
 			const errorMessage = getErrMsg(error);
+			log.error(`login() ${errorMessage}`, error);
 
 			Swal.fire({
 				title: 'Error',
@@ -31,8 +30,7 @@ export async function signup(email: string, password: string) {
 		login(email, password);
 	} catch (error) {
 		const errorMessage = getErrMsg(error);
-
-		log({ text: `signup() ${errorMessage}`, severity: 'error', data: error });
+		log.error(`signup() ${errorMessage}`, error);
 
 		Swal.fire({
 			title: 'Error',
@@ -50,8 +48,7 @@ export async function sendPwResetEmail(email: string) {
 		Accounts.forgotPassword({ email }, (error?: Meteor.Error | Error) => {
 			if (error) {
 				const errorMessage = getErrMsg(error);
-
-				log({ text: `sendPwResetEmail() ${errorMessage}`, severity: 'error', data: error });
+				log.error(`sendPwResetEmail() ${errorMessage}`, error);
 
 				reject(errorMessage);
 			} else {
@@ -66,8 +63,7 @@ export async function resetPassword(token: string, password: string) {
 		Accounts.resetPassword(token, password, (error?: Meteor.Error | Error) => {
 			if (error) {
 				const errorMessage = getErrMsg(error);
-
-				log({ text: `resetPassword() ${errorMessage}`, severity: 'error', data: error });
+				log.error(`resetPassword() ${errorMessage}`, error);
 
 				reject(errorMessage);
 			} else {

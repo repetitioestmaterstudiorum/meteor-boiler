@@ -8,5 +8,5 @@ import { log } from '/imports/utils/logger';
 // ---
 
 Meteor.startup(() => {
-	log({ text: 'Meteor server started' });
+	log.info('Meteor server started');
 });

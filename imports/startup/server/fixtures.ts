@@ -23,7 +23,7 @@ Meteor.startup(async () => {
 	const ADMIN_PASSWORD_SEED = 'password';
 
 	if (!(await getUserByEmail(ADMIN_EMAIL_SEED))) {
-		log({ text: `Seeding user ${ADMIN_EMAIL_SEED}...` });
+		log.info(`Seeding user ${ADMIN_EMAIL_SEED}...`);
 
 		await addUserByEmail(ADMIN_EMAIL_SEED, ADMIN_PASSWORD_SEED);
 
@@ -50,7 +50,7 @@ Meteor.startup(async () => {
 	const DEMO_PASSWORD_SEED = 'password';
 
 	if (!(await getUserByEmail(DEMO_EMAIL_SEED))) {
-		log({ text: `Seeding user ${DEMO_EMAIL_SEED}...` });
+		log.info(`Seeding user ${DEMO_EMAIL_SEED}...`);
 
 		await addUserByEmail(DEMO_EMAIL_SEED, DEMO_PASSWORD_SEED);
 
