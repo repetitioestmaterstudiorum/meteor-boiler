@@ -2,9 +2,9 @@ import { addGroup, getGroupByName } from '/imports/api/collections/groups/groups
 import { addUsersToRoles, createRole } from '/imports/api/collections/roles/roles.model';
 import { findTasks, addTask } from '/imports/api/collections/tasks/tasks.model';
 import {
+	addUserByEmail,
 	addUserToGroup,
-	addUserByUsername,
-	getUserByUsername,
+	getUserByEmail,
 } from '/imports/api/collections/users/users.model';
 import { log } from '/imports/utils/logger';
 
@@ -19,16 +19,16 @@ Meteor.startup(async () => {
 	createRole(USER_ROLE);
 
 	// Create an admin user if they don't already exist
-	const ADMIN_USERNAME_SEED = 'admin';
+	const ADMIN_EMAIL_SEED = 'admin@app.com';
 	const ADMIN_PASSWORD_SEED = 'password';
 
-	if (!(await getUserByUsername(ADMIN_USERNAME_SEED))) {
-		log({ text: `Seeding user ${ADMIN_USERNAME_SEED}...` });
+	if (!(await getUserByEmail(ADMIN_EMAIL_SEED))) {
+		log({ text: `Seeding user ${ADMIN_EMAIL_SEED}...` });
 
-		await addUserByUsername(ADMIN_USERNAME_SEED, ADMIN_PASSWORD_SEED);
+		await addUserByEmail(ADMIN_EMAIL_SEED, ADMIN_PASSWORD_SEED);
 
-		const user = await getUserByUsername(ADMIN_USERNAME_SEED);
-		if (!user) throw new Error(`User not seeded: ${ADMIN_USERNAME_SEED}`);
+		const user = await getUserByEmail(ADMIN_EMAIL_SEED);
+		if (!user) throw new Error(`User not seeded: ${ADMIN_EMAIL_SEED}`);
 
 		// Add the admin role to the admin user
 		addUsersToRoles(user._id, [ADMIN_ROLE]);
@@ -46,16 +46,16 @@ Meteor.startup(async () => {
 	}
 
 	// Create a regular user
-	const REGULAR_USERNAME_SEED = 'demo';
-	const REGULAR_PASSWORD_SEED = 'password';
+	const DEMO_EMAIL_SEED = 'demo@app.com';
+	const DEMO_PASSWORD_SEED = 'password';
 
-	if (!(await getUserByUsername(REGULAR_USERNAME_SEED))) {
-		log({ text: `Seeding user ${REGULAR_USERNAME_SEED}...` });
+	if (!(await getUserByEmail(DEMO_EMAIL_SEED))) {
+		log({ text: `Seeding user ${DEMO_EMAIL_SEED}...` });
 
-		await addUserByUsername(REGULAR_USERNAME_SEED, REGULAR_PASSWORD_SEED);
+		await addUserByEmail(DEMO_EMAIL_SEED, DEMO_PASSWORD_SEED);
 
-		const user = await getUserByUsername(REGULAR_USERNAME_SEED);
-		if (!user) throw new Error(`User not seeded: ${REGULAR_USERNAME_SEED}`);
+		const user = await getUserByEmail(DEMO_EMAIL_SEED);
+		if (!user) throw new Error(`User not seeded: ${DEMO_EMAIL_SEED}`);
 
 		// Add the user role to the regular user
 		addUsersToRoles(user._id, [USER_ROLE]);

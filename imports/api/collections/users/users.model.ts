@@ -15,14 +15,6 @@ export async function addUserByEmail(email: string, password: string, groupId?: 
 	return await insertUser({ email, password, groupId });
 }
 
-export async function addUserByUsername(username: string, password: string, groupId?: string) {
-	return await insertUser({ username, password, groupId });
-}
-
-export async function getUserByUsername(username: string, options?: FindOptions) {
-	return await findOneUser({ username }, options);
-}
-
 export async function getUserByEmail(email: string, options?: FindOptions) {
 	// Ready to be async in the future if needed
 	return await Accounts.findUserByEmail(email, options);

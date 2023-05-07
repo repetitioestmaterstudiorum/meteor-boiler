@@ -5,8 +5,8 @@ import Swal from 'sweetalert2';
 
 // ---
 
-export function login(usernameOrEmail: string, password: string) {
-	Meteor.loginWithPassword(usernameOrEmail, password, (error?: Meteor.Error | Error) => {
+export function login(email: string, password: string) {
+	Meteor.loginWithPassword({ email }, password, (error?: Meteor.Error | Error) => {
 		if (error) {
 			log({ text: 'login() error', severity: 'error', data: error });
 

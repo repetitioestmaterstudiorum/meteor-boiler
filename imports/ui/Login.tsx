@@ -30,11 +30,11 @@ export function Login() {
 			>
 				<div className="mb-4">
 					<label htmlFor="email" className="block text-gray-700 font-bold mb-2">
-						Email (or username)
+						Email
 					</label>
 					<input
 						type="text"
-						placeholder="Email (or username)"
+						placeholder="Email"
 						name="email"
 						required
 						onChange={event => setEmail(event.target.value)}
