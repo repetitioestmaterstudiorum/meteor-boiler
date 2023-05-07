@@ -5,7 +5,7 @@ import {
 	MeteorMongoSelector,
 	FindOptions,
 	find,
-} from '/imports/api/db/db.generic-methods';
+} from '../../db/db.generic-functions';
 
 // ---
 

@@ -1,5 +1,5 @@
 import { Mongo } from 'meteor/mongo';
-import { WithOptionalMetaFields, WithMetaFields } from '/imports/api/db/db.generic-methods';
+import { WithOptionalMetaFields, WithMetaFields } from '../../db/db.generic-functions';
 import { C } from '/imports/startup/global.constants';
 
 // ---

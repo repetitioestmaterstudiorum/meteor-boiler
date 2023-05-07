@@ -1,8 +1,12 @@
 import { addGroup, getGroupByName } from '/imports/api/collections/groups/groups.model';
 import { addUsersToRoles, createRole } from '/imports/api/collections/roles/roles.model';
 import { findTasks, addTask } from '/imports/api/collections/tasks/tasks.model';
-import { addUserToGroup, getUserByUsername } from '/imports/api/collections/users/users.model';
-import { addUser } from '/imports/api/collections/users/users.model';
+import {
+	addUserToGroup,
+	addUserByUsername,
+	getUserByUsername,
+} from '/imports/api/collections/users/users.model';
+import { log } from '/imports/utils/logger';
 
 // ---
 
@@ -18,8 +22,10 @@ Meteor.startup(async () => {
 	const ADMIN_USERNAME_SEED = 'admin';
 	const ADMIN_PASSWORD_SEED = 'password';
 
-	if (!Accounts.findUserByUsername(ADMIN_USERNAME_SEED)) {
-		await addUser(ADMIN_USERNAME_SEED, ADMIN_PASSWORD_SEED);
+	if (!(await getUserByUsername(ADMIN_USERNAME_SEED))) {
+		log({ text: `Seeding user ${ADMIN_USERNAME_SEED}...` });
+
+		await addUserByUsername(ADMIN_USERNAME_SEED, ADMIN_PASSWORD_SEED);
 
 		const user = await getUserByUsername(ADMIN_USERNAME_SEED);
 		if (!user) throw new Error(`User not seeded: ${ADMIN_USERNAME_SEED}`);
@@ -40,11 +46,13 @@ Meteor.startup(async () => {
 	}
 
 	// Create a regular user
-	const REGULAR_USERNAME_SEED = 'user';
+	const REGULAR_USERNAME_SEED = 'demo';
 	const REGULAR_PASSWORD_SEED = 'password';
 
-	if (!Accounts.findUserByUsername(REGULAR_USERNAME_SEED)) {
-		await addUser(REGULAR_USERNAME_SEED, REGULAR_PASSWORD_SEED);
+	if (!(await getUserByUsername(REGULAR_USERNAME_SEED))) {
+		log({ text: `Seeding user ${REGULAR_USERNAME_SEED}...` });
+
+		await addUserByUsername(REGULAR_USERNAME_SEED, REGULAR_PASSWORD_SEED);
 
 		const user = await getUserByUsername(REGULAR_USERNAME_SEED);
 		if (!user) throw new Error(`User not seeded: ${REGULAR_USERNAME_SEED}`);

@@ -1,28 +1,28 @@
-import { Meteor } from 'meteor/meteor';
 import React, { useState } from 'react';
-import { UserMeta } from '/imports/api/collections/users/users.collection';
-import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
-import { login } from './ui-utils/accounts-utils';
+import { signup } from './ui-utils/accounts-utils';
+import { useTracker } from 'meteor/react-meteor-data';
+import { UserMeta } from '/imports/api/collections/users/users.collection';
 
 // ---
 
-export function Login() {
+export function Signup() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
 	function submit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		login(email, password);
+		signup(email, password);
 	}
 
 	const user = useTracker(() => Meteor.user() as UserMeta | null);
+
 	if (user) window.location.href = '/';
 
 	return (
 		<>
-			<h2 className="text-2xl font-bold mt-4 text-center">Log in</h2>
+			<h2 className="text-2xl font-bold mt-4 mb-2 text-center">Sign up</h2>
 
 			<form
 				onSubmit={submit}
@@ -30,11 +30,11 @@ export function Login() {
 			>
 				<div className="mb-4">
 					<label htmlFor="email" className="block text-gray-700 font-bold mb-2">
-						Email (or username)
+						E-Mail
 					</label>
 					<input
 						type="text"
-						placeholder="Email (or username)"
+						placeholder="Email"
 						name="email"
 						required
 						onChange={event => setEmail(event.target.value)}
@@ -56,19 +56,16 @@ export function Login() {
 						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 					/>
 				</div>
-				<div className="flex justify-start space-x-3">
+				<div className="flex items-center justify-start">
 					<button type="submit" className="btn btn-sm btn-success">
-						Log In
-					</button>
-					<button className="btn btn-sm btn-error btn-outline">
-						<Link to="/reset-password">Reset password</Link>
+						Sign up
 					</button>
 				</div>
 			</form>
 			<div className="mt-4 text-center">
-				No account yet?{' '}
-				<Link to="/signup" className="text-blue-500">
-					Sign up
+				Already have an account?{' '}
+				<Link to="/login" className="text-blue-500">
+					Log in
 				</Link>
 			</div>
 		</>

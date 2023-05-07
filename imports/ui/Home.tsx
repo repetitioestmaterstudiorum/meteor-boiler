@@ -40,8 +40,8 @@ export function Home() {
 	});
 
 	if (!isLoading && !Meteor.loggingIn() && !user) {
-		/* The proper way would be a loader, then use redirect. Since we don't need a loader for anything else, 
-		the next best thing is to use the useNavigate hook to redirect as follows:
+		/* The proper way would be a loader, then use redirect, apparently.
+		Since we don't need a loader for anything else, the next best thing is the useNavigate hook:
 		const navigate = useNavigate();
 		navigate('/login');
 		This logs an error to the console because the component is still rendering.
@@ -52,18 +52,21 @@ export function Home() {
 	return isLoading ? (
 		<Loading />
 	) : (
-		<div>
-			<h2>Tasks ({pendingTasksCount})</h2>
+		<div className="p-4">
+			<h2 className="text-2xl mb-4">Tasks ({pendingTasksCount})</h2>
 
 			<TaskForm />
 
-			<div className="filter">
-				<button onClick={() => setHideCompleted(!hideCompleted)}>
+			<div className="mb-4">
+				<button
+					className="btn btn-sm btn-outline btn-info"
+					onClick={() => setHideCompleted(!hideCompleted)}
+				>
 					{hideCompleted ? 'Show All' : 'Hide Completed'}
 				</button>
 			</div>
 
-			<ul className="tasks">
+			<ul>
 				{tasks.map(task => (
 					<Task key={task._id} task={task} />
 				))}

@@ -8,7 +8,7 @@ import {
 	MeteorMongoSelector,
 	FindOptions,
 	UpdateModifier,
-} from '/imports/api/db/db.generic-methods';
+} from '../../db/db.generic-functions';
 
 // ---
 

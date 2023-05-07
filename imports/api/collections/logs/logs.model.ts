@@ -1,5 +1,5 @@
 import { LogMetaOptional, LogsCollection } from '/imports/api/collections/logs/logs.collection';
-import { insert } from '/imports/api/db/db.generic-methods';
+import { insert } from '../../db/db.generic-functions';
 
 // ---
 

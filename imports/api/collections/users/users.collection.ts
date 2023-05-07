@@ -2,7 +2,7 @@ import {
 	MeteorMongoCollection,
 	WithMetaFields,
 	WithOptionalMetaFields,
-} from '/imports/api/db/db.generic-methods';
+} from '/imports/api/db/db.generic-functions';
 import { C } from '/imports/startup/global.constants';
 
 // ---
@@ -13,7 +13,7 @@ export type User = {
 	groupId?: string;
 
 	// default Meteor fields
-	username: string;
+	username?: string;
 	emails: {
 		address: string;
 		verified: boolean;

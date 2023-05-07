@@ -18,13 +18,16 @@ The following are the key differences to the todo react example on https://react
 -   [x] There is a settings paradigm
 -   [x] Logging
 -   [x] React Router Setup
--   [ ] Tailwind is used: https://github.com/meteor/examples/tree/main/tailwindcss
+-   [x] Tailwind is used: https://github.com/meteor/examples/tree/main/tailwindcss
+-   [x] DaisyUI is used: https://daisyui.com/components/
+-   [x] Sweetalert2 is used: https://sweetalert2.github.io/#examples
+-   [x] Log in, sign up, and reset password pages
 
 Out of scope:
 
 -   Error service (depends a lot on the project) -> can be added to the logger utility
--   Tests (Recommended route: [meteormocha](https://github.com/Meteor-Community-Packages/meteor-mocha))
 -   Dependency injection container - documented in the takeaways section
+-   Tests (Recommended route: [meteormocha](https://github.com/Meteor-Community-Packages/meteor-mocha)), or vitest if dependency injection is implemented, and Meteor is one of the dependencies
 
 ## Using This Repo
 

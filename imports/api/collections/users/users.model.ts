@@ -6,16 +6,26 @@ import {
 	MeteorMongoSelector,
 	FindOptions,
 	UpdateModifier,
-} from '/imports/api/db/db.generic-methods';
+} from '/imports/api/db/db.generic-functions';
+import { Accounts } from 'meteor/accounts-base';
 
 // ---
 
-export async function addUser(username: string, password: string, groupId?: string) {
-	return await insertUser(username, password, groupId);
+export async function addUserByEmail(email: string, password: string, groupId?: string) {
+	return await insertUser({ email, password, groupId });
+}
+
+export async function addUserByUsername(username: string, password: string, groupId?: string) {
+	return await insertUser({ username, password, groupId });
 }
 
 export async function getUserByUsername(username: string, options?: FindOptions) {
 	return await findOneUser({ username }, options);
+}
+
+export async function getUserByEmail(email: string, options?: FindOptions) {
+	// Ready to be async in the future if needed
+	return await Accounts.findUserByEmail(email, options);
 }
 
 export async function getUserById(userId: UserMeta['_id'], options?: FindOptions) {
@@ -28,10 +38,21 @@ export async function addUserToGroup(userId: UserMeta['_id'], groupId: UserMeta[
 
 // CRUD ------------------------------------------------------------------------
 
-async function insertUser(username: string, password: string, groupId?: string) {
+async function insertUser({
+	email,
+	username,
+	password,
+	groupId,
+}: {
+	email?: string;
+	username?: string;
+	password: string;
+	groupId?: string;
+}) {
 	Accounts.createUser({
 		// This is a special case where the insert generic method is not used because we need to create a Meteor user account, encrypt the password, and then create a document in the UsersCollection
-		username,
+		...(email ? { email } : {}),
+		...(username ? { username } : {}),
 		password,
 		...(groupId ? { profile: { groupId } } : {}),
 	});

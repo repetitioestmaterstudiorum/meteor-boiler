@@ -1,5 +1,5 @@
 import { Setting, SettingsCollection } from '/imports/api/collections/settings/settings.collection';
-import { findOne, MeteorMongoSelector, FindOptions } from '/imports/api/db/db.generic-methods';
+import { findOne, MeteorMongoSelector, FindOptions } from '../../db/db.generic-functions';
 import _ from 'lodash';
 import { defaultSettings } from '/imports/api/collections/settings/default-settings';
 
