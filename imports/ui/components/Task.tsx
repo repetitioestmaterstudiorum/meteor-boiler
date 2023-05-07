@@ -17,7 +17,7 @@ export function Task({ task }: { task: TaskMeta }) {
 					readOnly
 					className="checkbox"
 				/>
-				<span className="block font-medium text-gray-700">{task.text}</span>{' '}
+				<span className="block font-medium">{task.text}</span>{' '}
 			</label>
 
 			<button

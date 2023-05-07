@@ -86,9 +86,9 @@ export function ResetPw() {
 			{token ? (
 				<form
 					onSubmit={submitResetPassword}
-					className="login-form bg-gray-100 p-6 border rounded mx-auto max-w-sm mt-10"
+					className="login-form p-6 mx-auto max-w-sm mt-10"
 				>
-					<label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+					<label htmlFor="email" className="block font-bold mb-2">
 						New password
 					</label>
 					<input type="hidden" name="token" value={token} />
@@ -98,7 +98,7 @@ export function ResetPw() {
 						name="password"
 						required
 						onChange={event => setPassword(event.target.value)}
-						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+						className="input input-bordered w-full max-w-xs"
 					/>
 
 					<input
@@ -107,7 +107,7 @@ export function ResetPw() {
 						name="password"
 						required
 						onChange={event => setConfirmPassword(event.target.value)}
-						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"
+						className="input input-bordered w-full max-w-xs mt-2"
 					/>
 
 					{passwordsDoNotMatch ? (
@@ -127,10 +127,10 @@ export function ResetPw() {
 			) : (
 				<form
 					onSubmit={submitSendPwResetEmail}
-					className="login-form bg-gray-100 p-6 border rounded mx-auto max-w-sm mt-10"
+					className="login-form p-6 mx-auto max-w-sm mt-10"
 				>
 					<div>
-						<label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+						<label htmlFor="email" className="block font-bold mb-2">
 							E-Mail
 						</label>
 						<input
@@ -139,7 +139,7 @@ export function ResetPw() {
 							name="email"
 							required
 							onChange={event => setEmail(event.target.value)}
-							className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+							className="input input-bordered w-full max-w-xs"
 						/>
 					</div>
 

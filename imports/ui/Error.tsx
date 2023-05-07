@@ -9,12 +9,12 @@ export function ErrorPage() {
 	const navigate = useNavigate();
 
 	return (
-		<div className="flex flex-col items-center justify-center h-screen bg-gray-50">
+		<div className="flex flex-col items-center justify-center h-screen">
 			<h1 className="text-4xl font-bold text-red-500">Error</h1>
-			<p className="text-lg text-gray-700 mt-2 mb-5">
+			<p className="text-lg mt-2 mb-5">
 				{[error.statusText, error.message].filter(Boolean).join(' ')}
 			</p>
-			<button className="btn" onClick={() => navigate(-1)}>
+			<button className="btn btn-outline" onClick={() => navigate(-1)}>
 				Back
 			</button>
 		</div>

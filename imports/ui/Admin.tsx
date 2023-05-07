@@ -39,7 +39,7 @@ export function Admin() {
 	if (!isLoading && !Meteor.loggingIn() && !isAdmin) window.location.href = '/';
 
 	return (
-		<div className="mx-auto max-w-md px-4">
+		<div className="mx-auto max-w-lg px-4">
 			<h1 className="text-2xl font-bold mb-6">Admin Page</h1>
 			{isLoading ? (
 				<Loading />
@@ -48,24 +48,23 @@ export function Admin() {
 					<h2 className="text-xl font-bold mb-2">Groups:</h2>
 					{groups.map(group => (
 						<div className="text-lg mb-1" key={group._id}>
-							<span className="bg-gray-200 rounded py-0.5 px-2">{group.name}</span>
+							<li className="py-0.5 px-2">{group.name}</li>
 						</div>
 					))}
 
 					<h2 className="text-xl font-bold mb-2">Users:</h2>
 					{users.map(user => (
 						<div className="text-lg mb-1" key={user._id}>
-							<span className="bg-gray-200 rounded py-0.5 px-2">
+							<li className="py-0.5 px-2">
 								{user.emails?.[0]?.address || user.username}
-							</span>
+							</li>
 						</div>
 					))}
 
 					<button
-						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5"
+						className="btn btn-sm btn-outline mt-4"
 						onClick={() =>
 							Swal.fire({
-								// ('Magic!', 'You clicked the button!', 'success')
 								title: 'Magic!',
 								text: 'You clicked the button!',
 								icon: 'success',

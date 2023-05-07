@@ -15,7 +15,15 @@ export function Root() {
 				{/* Logo */}
 				<div className="flex-1">
 					<h1 className="text-xl">
-						<Link to="/">📝️ Meteor Boiler Todo List</Link>
+						<Link to="/">
+							📝️ Meteor Boiler Todo List
+							{/* Uncomment to show a logo in public/ */}
+							{/* <img
+								src="/logo.png"
+								alt="Meteor Boiler Todo List"
+								className="h-8"
+							/> */}
+						</Link>
 					</h1>
 				</div>
 

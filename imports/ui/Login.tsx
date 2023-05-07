@@ -24,12 +24,9 @@ export function Login() {
 		<>
 			<h2 className="text-2xl font-bold mt-4 text-center">Log in</h2>
 
-			<form
-				onSubmit={submit}
-				className="login-form bg-gray-100 p-6 border rounded mx-auto max-w-sm mt-10"
-			>
+			<form onSubmit={submit} className="login-form p-6 mx-auto max-w-sm mt-10">
 				<div className="mb-4">
-					<label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+					<label htmlFor="email" className="block font-bold mb-2">
 						Email
 					</label>
 					<input
@@ -38,12 +35,12 @@ export function Login() {
 						name="email"
 						required
 						onChange={event => setEmail(event.target.value)}
-						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+						className="input input-bordered w-full max-w-xs"
 					/>
 				</div>
 
 				<div className="mb-4">
-					<label htmlFor="password" className="block text-gray-700 font-bold mb-2">
+					<label htmlFor="password" className="block font-bold mb-2">
 						Password
 					</label>
 
@@ -53,7 +50,7 @@ export function Login() {
 						name="password"
 						required
 						onChange={event => setPassword(event.target.value)}
-						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+						className="input input-bordered w-full max-w-xs"
 					/>
 				</div>
 				<div className="flex justify-start space-x-3">
